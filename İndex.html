@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canlı Kur Takibi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .currency {
+            margin: 20px 0;
+            padding: 10px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .currency h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .currency p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .refresh-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .refresh-btn:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Canlı Kur Takibi</h1>
+        <div class="currency">
+            <h2>USD / EUR</h2>
+            <p id="usd-eur">Kurum bilgisi yükleniyor...</p>
+        </div>
+        <button class="refresh-btn" onclick="fetchExchangeRates()">Yenile</button>
+    </div>
+
+    <script>
+        function fetchExchangeRates() {
+            const apiKey = 'YOUR_API_KEY'; // API anahtarınızı buraya girin
+            const url = `https://api.exchangerate-api.com/v4/latest/USD`; // Bu örnek API URL'sidir
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const rate = data.rates.EUR;
+                    document.getElementById('usd-eur').innerText = `1 USD = ${rate.toFixed(2)} EUR`;
+                })
+                .catch(error => {
+                    console.error('Veri alınırken hata oluştu:', error);
+                    document.getElementById('usd-eur').innerText = 'Veri alınırken hata oluştu.';
+                });
+        }
+
+        // Sayfa yüklendiğinde kur verilerini getir
+        fetchExchangeRates();
+    </script>
+</body>
+</html>
